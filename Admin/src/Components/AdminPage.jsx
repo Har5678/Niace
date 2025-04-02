@@ -7,9 +7,8 @@ import ListFranchise from "../pages/ListFranchise";
 import Dashboard from "../pages/Dashboard";
 
 const AdminPage = () => {
-  const [activePage, setActivePage] = useState("Dashboard"); // ✅ Fix: Default page is Dashboard
+  const [activePage, setActivePage] = useState("Dashboard");
 
-  // Function to render the selected page
   const renderPage = () => {
     switch (activePage) {
       case "Dashboard":
@@ -25,73 +24,34 @@ const AdminPage = () => {
       case "ListFranchise":
         return <ListFranchise />;
       default:
-        return <Dashboard />; // ✅ Ensure Dashboard is the fallback
+        return <Dashboard />;
     }
   };
 
   return (
-    <div className="flex h-screen">
+    <div className="flex h-screen text-sm">
       {/* Sidebar */}
-      <div className="w-1/4 bg-white shadow-lg p-6">
-        <h2 className="text-xl font-bold mb-4 text-center">Admin Dashboard</h2>
-        <hr className="mb-4" />
+      <div className="w-1/5 bg-white shadow-md p-4">
+        <h2 className="text-base font-semibold mb-3 text-center">Admin Panel</h2>
+        <hr className="mb-3" />
 
-        <ul className="space-y-4">
-          <li
-            className={`cursor-pointer text-lg font-medium p-2 rounded-md hover:bg-blue-200 ${
-              activePage === "Dashboard" ? "bg-blue-500 text-white" : ""
-            }`}
-            onClick={() => setActivePage("Dashboard")} // ✅ Fix: Removed extra space
-          >
-            🏠 Dashboard
-          </li>
-
-          <li
-            className={`cursor-pointer text-lg font-medium p-2 rounded-md hover:bg-blue-200 ${
-              activePage === "AddStudents" ? "bg-blue-500 text-white" : ""
-            }`}
-            onClick={() => setActivePage("AddStudents")}
-          >
-            ➕ Add Students
-          </li>
-
-          <li
-            className={`cursor-pointer text-lg font-medium p-2 rounded-md hover:bg-blue-200 ${
-              activePage === "IssueCertificate" ? "bg-blue-500 text-white" : ""
-            }`}
-            onClick={() => setActivePage("IssueCertificate")}
-          >
-            🎓 Issue Certificate
-          </li>
-          <li
-            className={`cursor-pointer text-lg font-medium p-2 rounded-md hover:bg-blue-200 ${
-              activePage === "RegisterFranchise" ? "bg-blue-500 text-white" : ""
-            }`}
-            onClick={() => setActivePage("RegisterFranchise")}
-          >
-            🏢 Register Franchise
-          </li>
-          <li
-            className={`cursor-pointer text-lg font-medium p-2 rounded-md hover:bg-blue-200 ${
-              activePage === "ListStudents" ? "bg-blue-500 text-white" : ""
-            }`}
-            onClick={() => setActivePage("ListStudents")}
-          >
-            📜 List Students
-          </li>
-          <li
-            className={`cursor-pointer text-lg font-medium p-2 rounded-md hover:bg-blue-200 ${
-              activePage === "ListFranchise" ? "bg-blue-500 text-white" : ""
-            }`}
-            onClick={() => setActivePage("ListFranchise")}
-          >
-            📋 List Franchise
-          </li>
+        <ul className="space-y-2">
+          {["Dashboard", "AddStudents", "IssueCertificate", "RegisterFranchise", "ListStudents", "ListFranchise"].map((page) => (
+            <li
+              key={page}
+              className={`cursor-pointer p-2 rounded-md text-gray-700 hover:bg-blue-200 text-xs ${
+                activePage === page ? "bg-blue-500 text-white" : ""
+              }`}
+              onClick={() => setActivePage(page)}
+            >
+              {page}
+            </li>
+          ))}
         </ul>
       </div>
 
       {/* Main Content Area */}
-      <div className="w-3/4 p-6">{renderPage()}</div>
+      <div className="w-4/5 p-4 overflow-auto">{renderPage()}</div>
     </div>
   );
 };

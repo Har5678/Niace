@@ -20,60 +20,58 @@ const ListFranchise = () => {
   };
 
   const handleRemove = async (id) => {
-
     try {
-        console.log("hello");
-      const response= await axios.post(backenUrl+"/api/franchise/delete",{id});
-      if(response.data.success){
+      const response = await axios.post(`${backenUrl}/api/franchise/delete`, { id });
+      if (response.data.success) {
         toast.success("Franchise deleted successfully");
-        setFranchises(franchises.filter(franchise => franchise._id !== id));
-      }else{
+        setFranchises(franchises.filter((franchise) => franchise._id !== id));
+      } else {
         toast.error(response.data.message);
       }
-      
     } catch (error) {
-      toast.error(error);
+      toast.error("Error deleting franchise");
     }
   };
 
   return (
-    <div className="container mx-auto p-6">
-      <h2 className="text-2xl font-semibold text-center mb-4">List of Franchises</h2>
-
+    <div className="p-2 max-w-4xl mx-auto">
+      <p className="mb-2 text-base font-bold text-center">All Franchises</p>
       <div className="overflow-x-auto">
-        <table className="min-w-full bg-white border border-gray-300 shadow-md rounded-lg">
+        <table className="w-full border border-gray-300 text-xs sm:text-sm">
           <thead className="bg-gray-200">
-            <tr className="text-left">
-              <th className="px-4 py-2 border">#</th>
-              <th className="px-4 py-2 border">Franchise Name</th>
-              <th className="px-4 py-2 border">Franchise Email</th>
-              <th className="px-4 py-2 border">Address</th>
-              <th className="px-4 py-2 border">Password</th>
-              <th className="px-4 py-2 border">Actions</th>
+            <tr className="text-left text-[10px] sm:text-xs">
+              <th className="border px-2 py-1">#</th>
+              <th className="border px-2 py-1">Name</th>
+              <th className="border px-2 py-1">Email</th>
+              <th className="border px-2 py-1">Address</th>
+              <th className="border px-2 py-1">Password</th>
+              <th className="border px-2 py-1 text-center">Action</th>
             </tr>
           </thead>
           <tbody>
             {franchises.length > 0 ? (
               franchises.map((franchise, index) => (
-                <tr key={franchise._id} className="hover:bg-gray-100">
-                  <td className="px-4 py-2 border">{index + 1}</td>
-                  <td className="px-4 py-2 border">{franchise.name}</td>
-                  <td className="px-4 py-2 border">{franchise.email}</td>
-                  <td className="px-4 py-2 border">{franchise.address}</td>
-                  <td className="px-4 py-2 border">{franchise.password}</td> {/* Masking password */}
-                  <td className="px-4 py-2 border">
+                <tr key={franchise._id} className="hover:bg-gray-100 text-[10px] sm:text-xs">
+                  <td className="border px-2 py-1">{index + 1}</td>
+                  <td className="border px-2 py-1">{franchise.name}</td>
+                  <td className="border px-2 py-1">{franchise.email}</td>
+                  <td className="border px-2 py-1">{franchise.address}</td>
+                  <td className="border px-2 py-1 text-center">****</td>
+                  <td className="border px-2 py-1 text-center">
                     <button
-                      className="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600 transition duration-200"
                       onClick={() => handleRemove(franchise._id)}
+                      className="bg-red-500 text-white px-2 py-1 rounded text-[10px] hover:bg-red-700"
                     >
-                      Remove
+                      ✖
                     </button>
                   </td>
                 </tr>
               ))
             ) : (
               <tr>
-                <th colSpan="6" className="text-center py-4">No Franchise Data Found</th>
+                <td colSpan="6" className="text-center py-2 text-gray-500">
+                  No Franchise Data Found
+                </td>
               </tr>
             )}
           </tbody>

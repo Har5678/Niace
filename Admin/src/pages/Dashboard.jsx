@@ -17,7 +17,7 @@ const Dashboard = () => {
     const fetchDashboardData = async () => {
       try {
         const response = await axios.get(backenUrl + "/api/dashboard/count");
-        
+
         if (response.data.success) {
           setData({
             totalStudents: response.data.data.studentCount,
@@ -38,34 +38,36 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div className="p-6">
-      <h1 className="text-3xl font-bold mb-8 text-center">Admin Dashboard</h1>
+    <div className="p-4">
+      <h1 className="text-xl sm:text-2xl font-bold mb-6 text-center">
+        Admin Dashboard
+      </h1>
 
       {loading ? (
-        <p className="text-center text-lg font-semibold">Loading...</p>
+        <p className="text-center text-sm font-semibold">Loading...</p>
       ) : error ? (
-        <p className="text-center text-red-500 text-lg">{error}</p>
+        <p className="text-center text-red-500 text-sm">{error}</p>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 justify-center items-center">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full max-w-5xl mx-auto">
           {/* Total Students Added */}
-          <div className="bg-white p-8 rounded-xl shadow-lg flex flex-col items-center justify-center w-full md:w-80 min-h-40">
-            <FaUserGraduate className="text-blue-500 text-6xl mb-4" />
-            <h2 className="text-xl font-semibold">Total Students</h2>
-            <p className="text-3xl font-bold">{data.totalStudents}</p>
+          <div className="bg-white p-4 rounded-lg shadow-md flex flex-col items-center justify-center w-full min-h-32">
+            <FaUserGraduate className="text-blue-500 text-4xl mb-2" />
+            <h2 className="text-md font-semibold">Total Students</h2>
+            <p className="text-xl font-bold">{data.totalStudents}</p>
           </div>
 
           {/* Total Franchises Registered */}
-          <div className="bg-white p-8 rounded-xl shadow-lg flex flex-col items-center justify-center w-full md:w-80 min-h-40">
-            <FaBuilding className="text-green-500 text-6xl mb-4" />
-            <h2 className="text-xl font-semibold">Total Franchises</h2>
-            <p className="text-3xl font-bold">{data.totalFranchises}</p>
+          <div className="bg-white p-4 rounded-lg shadow-md flex flex-col items-center justify-center w-full min-h-32">
+            <FaBuilding className="text-green-500 text-4xl mb-2" />
+            <h2 className="text-md font-semibold">Total Franchises</h2>
+            <p className="text-xl font-bold">{data.totalFranchises}</p>
           </div>
 
           {/* Total Certificates Issued */}
-          <div className="bg-white p-8 rounded-xl shadow-lg flex flex-col items-center justify-center w-full md:w-80 min-h-40">
-            <FaCertificate className="text-yellow-500 text-6xl mb-4" />
-            <h2 className="text-xl font-semibold">Certificates Issued</h2>
-            <p className="text-3xl font-bold">{data.totalCertificates}</p>
+          <div className="bg-white p-4 rounded-lg shadow-md flex flex-col items-center justify-center w-full min-h-32">
+            <FaCertificate className="text-yellow-500 text-4xl mb-2" />
+            <h2 className="text-md font-semibold">Certificates Issued</h2>
+            <p className="text-xl font-bold">{data.totalCertificates}</p>
           </div>
         </div>
       )}

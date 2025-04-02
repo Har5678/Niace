@@ -43,7 +43,7 @@ export const addStudent = async (req, res) => {
         console.error("❌ Error adding student:", error);
         // 🔥 Handle duplicate key error (MongoDB code 11000)
         if (error.code === 11000) {
-            return res.status(400).json({ message: "❌ Duplicate entry: Student with this Email or Registration No already exists!" });
+            return res.status(400).json({success:false, message: "❌ Duplicate entry: Student with this Email or Registration No already exists!" });
         }
         res.status(500).json({ success: false, message: "❌ Internal Server Error" });
     }

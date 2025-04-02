@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { assets } from "../assets/assets";
 
 const teamMembers = [
@@ -9,69 +9,34 @@ const teamMembers = [
 ];
 
 const Banner3 = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [fade, setFade] = useState(true);
-
-  // Determine number of items to display based on screen size
-  const getItemsPerSlide = () => (window.innerWidth < 768 ? 1 : 2);
-  const [itemsPerSlide, setItemsPerSlide] = useState(getItemsPerSlide());
-
-  useEffect(() => {
-    const updateItemsPerSlide = () => setItemsPerSlide(getItemsPerSlide());
-    window.addEventListener("resize", updateItemsPerSlide);
-    return () => window.removeEventListener("resize", updateItemsPerSlide);
-  }, []);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setFade(false);
-      setTimeout(() => {
-        setCurrentIndex(
-          (prevIndex) => (prevIndex + itemsPerSlide) % teamMembers.length
-        );
-        setFade(true);
-      }, 500);
-    }, 3000);
-
-    return () => clearInterval(interval);
-  }, [itemsPerSlide]);
-
   return (
-    <div className="relative w-full px-6 sm:px-10 md:px-16 lg:px-24 bg-black">
-      <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white text-center py-6 sm:py-8">
+    <div className="w-full px-4 sm:px-6 md:px-10 lg:px-16 bg-black py-8">
+      <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white text-center mb-6">
         Our Team Members
       </h2>
 
-      {/* Members Container with Smooth Transition */}
-      <div className="flex justify-center items-center">
-        <div
-          className={`grid grid-cols-1 md:grid-cols-2 gap-10 px-4 py-4 transition-opacity duration-500 ${
-            fade ? "opacity-100" : "opacity-0"
-          }`}
-        >
-          {teamMembers
-            .slice(currentIndex, currentIndex + itemsPerSlide)
-            .map((member) => (
-              <div
-                key={member.id}
-                className="flex flex-col items-center w-[90vw] sm:w-[80vw] md:w-[40vw] lg:w-[40vw] xl:w-[30vw] shadow-lg rounded-lg overflow-hidden transition-all duration-500 ease-in-out"
-              >
-                {/* Image */}
-                <div className="w-full h-[300px] sm:h-[350px] md:h-[400px] lg:h-[450px] overflow-hidden">
-                  <img
-                    src={member.image}
-                    alt={member.name}
-                    className="w-full h-full object-contain rounded-lg"
-                  />
-                </div>
+      {/* Team Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 place-items-center">
+        {teamMembers.map((member) => (
+          <div
+            key={member.id}
+            className="relative w-full max-w-[250px] group rounded-lg overflow-hidden shadow-lg transition-transform duration-300 hover:scale-105"
+          >
+            {/* Image */}
+            <img
+              src={member.image}
+              alt={member.name}
+              className="w-full h-[250px] object-cover rounded-lg"
+            />
 
-                {/* Name Centered Below Image */}
-                <div className="mt-4 text-white text-lg sm:text-xl md:text-2xl font-semibold text-center">
-                  {member.name}
-                </div>
-              </div>
-            ))}
-        </div>
+            {/* Hover Effect */}
+            <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <span className="text-white text-lg sm:text-xl font-semibold">
+                {member.name}
+              </span>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );

@@ -1,15 +1,15 @@
 import { FaFacebookF, FaLinkedinIn, FaInstagram, FaWhatsapp } from "react-icons/fa";
-import { Link } from "react-router-dom"; 
+import { Link } from "react-router-dom";
 import { assets } from "../assets/assets";
 
 const Footer = () => {
   return (
     <footer className="bg-[#0e1b3d] text-white py-12">
       <div className="container mx-auto px-6 md:px-12">
-        
+
         {/* Grid Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 text-center lg:text-left">
-          
+
           {/* Logo Section */}
           <div className="flex flex-col items-center lg:items-start">
             <img
@@ -21,7 +21,7 @@ const Footer = () => {
 
           {/* Popular Links */}
           <div className="flex flex-col items-center lg:items-start">
-            <h2 className="text-3xl font-bold mb-4">Popular Links</h2>
+            <h2 className="text-2xl font-bold mb-4">Popular Links</h2>
             <ul className="text-lg space-y-2">
               {[
                 { name: "Home", path: "/" },
@@ -38,14 +38,14 @@ const Footer = () => {
 
           {/* Get In Touch */}
           <div className="flex flex-col items-center lg:items-start">
-            <h2 className="text-3xl font-bold mb-4">Get In Touch</h2>
-            <p className="text-xl flex items-center gap-2">
+            <h2 className="text-2xl font-bold mb-4">Get In Touch</h2>
+            <p className="text-lg flex items-center ">
               📍 N-24, Vishnu Aawas, Opposite IIMT University, Ganga Nagar, Meerut
             </p>
-            <p className="text-xl flex items-center gap-2 mt-3">
+            <p className="text-lg flex items-center gap-2 mt-3">
               📧 <a href="mailto:niacemrt@gmail.com" className="hover:text-[#ff9900]">niacemrt@gmail.com</a>
             </p>
-            <p className="text-xl flex items-center gap-2 mt-3">
+            <p className="text-lg flex items-center gap-2 mt-3">
               📞 <a href="tel:+918533027077" className="hover:text-[#ff9900]">+91 8533027077</a>
             </p>
           </div>
@@ -65,9 +65,9 @@ const Footer = () => {
                   href={url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-[#ff9900] p-4 rounded-full hover:bg-white hover:text-[#ff9900] transition"
+                  className="bg-[#ff9900] p-3 rounded-full hover:bg-white hover:text-[#ff9900] transition"
                 >
-                  <Icon size={24} />
+                  <Icon size={20} />
                 </a>
               ))}
             </div>
@@ -77,9 +77,15 @@ const Footer = () => {
         {/* Footer Bottom */}
         <div className="text-center mt-10 border-t border-gray-600 pt-6 text-xl">
           © NIACE. All Rights Reserved. Designed by{" "}
-          <a href="#" className="text-[#ff9900] hover:text-white font-semibold">
+          <a
+            href="https://ibrandizer.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[#ff9900] hover:text-white font-semibold"
+          >
             iBrandizer Pvt Ltd.
           </a>
+
         </div>
       </div>
     </footer>

@@ -11,9 +11,16 @@ const storage = multer.diskStorage({
     },
 });
 
-// File filter (optional: restrict file types)
+// File filter (allows WebP too)
 const fileFilter = (req, file, cb) => {
-    const allowedTypes = ["image/jpeg", "image/png", "image/jpg","image/avif"];
+    const allowedTypes = [
+        "image/jpeg",
+        "image/png",
+        "image/jpg",
+        "image/avif",
+        "image/webp" // ✅ Added WebP support
+    ];
+    
     if (allowedTypes.includes(file.mimetype)) {
         cb(null, true);
     } else {

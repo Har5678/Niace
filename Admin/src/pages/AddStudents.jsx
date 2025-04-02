@@ -14,6 +14,15 @@ const AddStudents = () => {
     const [email, setEmail] = useState("");
     const [course, setCourse] = useState("");
     const [image, setImage] = useState(null);
+    const [imagePreview, setImagePreview] = useState(null);
+
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        setImage(file);
+        if (file) {
+            setImagePreview(URL.createObjectURL(file));
+        }
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -29,38 +38,35 @@ const AddStudents = () => {
             formData.append("course", course);
             formData.append("image", image);
 
-            const response= await axios.post(backenUrl + "/api/student/add", formData, {
+            const response = await axios.post(backenUrl + "/api/student/add", formData, {
                 headers: { "Content-Type": "multipart/form-data" },
             });
-            
-            if(response.data.success){
+
+            if (response.data.success) {
                 toast.success(response.data.message);
-            }else{
+                setRegistrationNo("");
+                setName("");
+                setMotherName("");
+                setFatherName("");
+                setAddress("");
+                setContact("");
+                setEmail("");
+                setCourse("");
+                setImage(null);
+                setImagePreview(null);
+            } else {
                 toast.error(response.data.message);
             }
-
-            
-
-            setRegistrationNo("");
-            setName("");
-            setMotherName("");
-            setFatherName("");
-            setAddress("");
-            setContact("");
-            setEmail("");
-            setCourse("");
-            setImage(null);
         } catch (error) {
-            console.error("Error adding student", error);
-            toast.error(error);
-
+            toast.error(error.response?.data?.message || "Something went wrong");
         }
     };
 
     return (
-        <div className="flex justify-center items-center max-h-2xl bg-gray-100">
-            <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-6xl mt-5">
+        <div className="flex justify-center items-center min-h-screen bg-gray-100">
+            <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-3xl mt-5">
                 <form onSubmit={handleSubmit} className="space-y-4">
+                    
                     {/* Upload Image Section */}
                     <div>
                         <p className="mb-2 text-gray-700 font-medium">Upload Image</p>
@@ -68,7 +74,7 @@ const AddStudents = () => {
                             <label htmlFor="imageUpload">
                                 <img
                                     className="w-20 h-20 object-cover rounded-lg border cursor-pointer"
-                                    src={image ? URL.createObjectURL(image) : assets.Upload}
+                                    src={imagePreview || assets.Upload}
                                     alt="Student"
                                 />
                                 <input
@@ -76,7 +82,7 @@ const AddStudents = () => {
                                     id="imageUpload"
                                     hidden
                                     accept="image/*"
-                                    onChange={(e) => setImage(e.target.files[0])}
+                                    onChange={handleImageChange}
                                 />
                             </label>
                         </div>
@@ -93,6 +99,7 @@ const AddStudents = () => {
                             placeholder="Enter registration number"
                             className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
                             required
+                            autoComplete="off"
                         />
                     </div>
 
@@ -107,6 +114,7 @@ const AddStudents = () => {
                             placeholder="Enter student name"
                             className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
                             required
+                            autoComplete="off"
                         />
                     </div>
 
@@ -120,6 +128,7 @@ const AddStudents = () => {
                             onChange={(e) => setMotherName(e.target.value)}
                             placeholder="Enter mother's name"
                             className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                            autoComplete="off"
                         />
                     </div>
 
@@ -133,6 +142,7 @@ const AddStudents = () => {
                             onChange={(e) => setFatherName(e.target.value)}
                             placeholder="Enter father's name"
                             className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                            autoComplete="off"
                         />
                     </div>
 
@@ -145,6 +155,7 @@ const AddStudents = () => {
                             onChange={(e) => setAddress(e.target.value)}
                             placeholder="Enter address"
                             className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                            autoComplete="off"
                         />
                     </div>
 
@@ -155,10 +166,13 @@ const AddStudents = () => {
                             type="text"
                             name="contact"
                             value={contact}
-                            onChange={(e) => setContact(e.target.value)}
+                            onChange={(e) => {
+                                if (/^\d*$/.test(e.target.value)) setContact(e.target.value);
+                            }}
                             placeholder="Enter contact number"
                             className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
                             required
+                            autoComplete="off"
                         />
                     </div>
 
@@ -173,6 +187,7 @@ const AddStudents = () => {
                             placeholder="Enter email"
                             className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
                             required
+                            autoComplete="off"
                         />
                     </div>
 
@@ -187,10 +202,15 @@ const AddStudents = () => {
                             placeholder="Enter course"
                             className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
                             required
+                            autoComplete="off"
                         />
                     </div>
 
-                    <button type="submit" className="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600">
+                    {/* Submit Button */}
+                    <button
+                        type="submit"
+                        className="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600"
+                    >
                         Add Student
                     </button>
                 </form>
