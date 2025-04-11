@@ -28,13 +28,16 @@ const IssueCertificate = () => {
 
     try {
       const response = await axios.post(backenUrl + "/api/students/certificate", { formData }, { responseType: "blob" });
-      if (!response.data.success) {
+      console.log(response.data);
+      if (!response.data) {
         toast.error(response.data.message);
         return;
       }
+      
 
       const blob = new Blob([response.data], { type: "application/pdf" });
       const url = window.URL.createObjectURL(blob);
+      console.log(url);
       window.open(url, "_blank");
       toast.success("Certificate issued successfully");
 

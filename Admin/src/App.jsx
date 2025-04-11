@@ -27,6 +27,7 @@ const App = () => {
   if(token2){
     localStorage.setItem("token2", token2);
     if (token2) {
+      
       navigate('/franchise'); // Redirect to franchise page when token2 is set
       return;
     }
@@ -44,9 +45,9 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Admin />} />
         <Route path="/adminLogin" element={<AdminLogin setToken={setToken} />} />
-        <Route path="/adminPage" element={<AdminPage />} />
+        <Route path="/adminPage" element={<AdminPage token={token}/>} />
         <Route path='/franchise-login' element={<FranchiseLogin setToken2={setToken2}/>} />
-        <Route path='/franchise' element={<Fpage />} />
+        <Route path='/franchise' element={<Fpage token2={token2}/>} />
       </Routes>
     </>
   );

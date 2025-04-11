@@ -6,21 +6,22 @@ import ListStudents from "../pages/ListStudents";
 import ListFranchise from "../pages/ListFranchise";
 import Dashboard from "../pages/Dashboard";
 
-const AdminPage = () => {
+const AdminPage = ({token,token2}) => {
   const [activePage, setActivePage] = useState("Dashboard");
-
+  
+  
   const renderPage = () => {
     switch (activePage) {
       case "Dashboard":
         return <Dashboard />;
       case "AddStudents":
-        return <AddStudents />;
+        return <AddStudents token={token} token2={token2} />;
       case "IssueCertificate":
         return <IssueCertificate />;
       case "RegisterFranchise":
         return <RegisterFranchise />;
       case "ListStudents":
-        return <ListStudents />;
+        return <ListStudents token={token}/>;
       case "ListFranchise":
         return <ListFranchise />;
       default:

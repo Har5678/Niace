@@ -2,15 +2,15 @@ import React, { useState } from "react";
 import AddStudents from "../pages/AddStudents";
 import ListStudents from "../pages/ListStudents";
 
-const Fpage = () => {
+const Fpage = ({token2}) => {
   const [activePage, setActivePage] = useState("AddStudents");
-
+  console.log(token2);
   const renderPage = () => {
     switch (activePage) {
       case "AddStudents":
-        return <AddStudents />;
+        return <AddStudents token2={token2}/>;
       case "ListStudents":
-        return <ListStudents />;
+        return <ListStudents token2={token2}/>;
       default:
         return <AddStudents />;
     }

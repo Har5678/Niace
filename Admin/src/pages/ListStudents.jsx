@@ -3,12 +3,12 @@ import { backenUrl } from "../App";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const ListStudents = () => {
+const ListStudents = ({ token, token2 }) => {
   const [students, setStudents] = useState([]);
+  const [loading, setLoading] = useState(true); // 👈 Added loading state
 
   const removeStudent = async (Id) => {
     try {
-      console.log(Id);
       const response = await axios.post(backenUrl + "/api/student/delete", { Id });
       if (response.data.success) {
         setStudents(students.filter((student) => student._id !== Id));
@@ -21,8 +21,17 @@ const ListStudents = () => {
 
   const fetchStudents = async () => {
     try {
-      const response = await axios.get(backenUrl + "/api/student/list");
-      console.log(response.data);
+      setLoading(true); // 👈 Set loading to true before fetching data
+
+      let response;
+      if (token) {
+        response = await axios.get(backenUrl + "/api/student/list");
+      } else {
+        response = await axios.get(backenUrl + "/api/student/list", {
+          headers: { token2 },
+        });
+      }
+
       if (response.data.success) {
         const sortedStudents = response.data.students.sort(
           (a, b) => new Date(b.createdAt) - new Date(a.createdAt) // Sorting by latest first
@@ -33,39 +42,45 @@ const ListStudents = () => {
       }
     } catch (error) {
       console.error("Error fetching students:", error);
+    } finally {
+      setLoading(false); // 👈 Set loading to false after fetching data
     }
   };
 
   useEffect(() => {
     fetchStudents();
   }, []);
+  console.log(students);
 
   return (
     <div className="p-2 max-w-4xl mx-auto">
       <p className="mb-2 text-base font-bold text-center">All Students List</p>
 
       <div className="overflow-x-auto">
-        <table className="w-full border border-gray-300 text-xs sm:text-sm">
-          {/* Table Header */}
-          <thead className="bg-gray-200">
-            <tr className="text-left text-[10px] sm:text-xs">
-              <th className="border px-2 py-1">Reg No</th>
-              <th className="border px-2 py-1">Img</th>
-              <th className="border px-2 py-1">Name</th>
-              <th className="border px-2 py-1">Mother</th>
-              <th className="border px-2 py-1">Father</th>
-              <th className="border px-2 py-1">Course</th>
-              <th className="border px-2 py-1">Contact</th>
-              <th className="border px-2 py-1">Email</th>
-              <th className="border px-2 py-1">Cert</th>
-              <th className="border px-2 py-1">Action</th>
-            </tr>
-          </thead>
+        {loading ? ( // 👈 Show loading indicator while fetching
+          <p className="text-center py-2 text-gray-500">Loading students...</p>
+        ) : students.length > 0 ? (
+          <table className="w-full border border-gray-300 text-xs sm:text-sm">
+            {/* Table Header */}
+            <thead className="bg-gray-200">
+              <tr className="text-left text-[10px] sm:text-xs">
+                <th className="border px-2 py-1">Reg No</th>
+                <th className="border px-2 py-1">Img</th>
+                <th className="border px-2 py-1">Name</th>
+                <th className="border px-2 py-1">Mother</th>
+                <th className="border px-2 py-1">Father</th>
+                <th className="border px-2 py-1">Course</th>
+                <th className="border px-2 py-1">Contact</th>
+                <th className="border px-2 py-1">Email</th>
+                <th className="border px-2 py-1">Franchise</th>
+                <th className="border px-2 py-1">Cert</th>
+                <th className="border px-2 py-1">Action</th>
+              </tr>
+            </thead>
 
-          {/* Table Body */}
-          <tbody>
-            {students.length > 0 ? (
-              students.map((student, index) => (
+            {/* Table Body */}
+            <tbody>
+              {students.map((student, index) => (
                 <tr key={index} className="hover:bg-gray-100 text-[10px] sm:text-xs">
                   <td className="border px-2 py-1">{student.registrationNo}</td>
                   <td className="border px-2 py-1">
@@ -75,12 +90,14 @@ const ListStudents = () => {
                       alt="Student"
                     />
                   </td>
+                  
                   <td className="border px-2 py-1">{student.name}</td>
                   <td className="border px-2 py-1">{student.motherName}</td>
                   <td className="border px-2 py-1">{student.fatherName}</td>
                   <td className="border px-2 py-1">{student.course}</td>
                   <td className="border px-2 py-1">{student.contact}</td>
                   <td className="border px-2 py-1">{student.email}</td>
+                  <td className="border px-2 py-1">{student.FranchiseName}</td>
                   <td className="border px-2 py-1 text-center">
                     {student.CertificateIssued === "Yes" ? (
                       <span className="text-green-600 font-semibold">✔</span>
@@ -88,6 +105,7 @@ const ListStudents = () => {
                       <span className="text-red-600 font-semibold">✘</span>
                     )}
                   </td>
+                  
                   <td className="border px-2 py-1 text-center">
                     <button
                       onClick={() => removeStudent(student._id)}
@@ -97,16 +115,12 @@ const ListStudents = () => {
                     </button>
                   </td>
                 </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="10" className="text-center py-2 text-gray-500">
-                  No Student Data Found
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <p className="text-center py-2 text-gray-500">No Student Data Found</p>
+        )}
       </div>
     </div>
   );

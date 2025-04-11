@@ -10,6 +10,7 @@ const __dirname = path.dirname(__filename);
 export const getCertificate = async (req, res) => {
     try {
         const { formData } = req.body;
+        
         const { registrationNo, certificateNo, IssueDate, conductedBy, fromDate, toDate, grade } = formData;
 
         // Find student by registration number
@@ -19,10 +20,13 @@ export const getCertificate = async (req, res) => {
             return res.status(404).json({ success: false, message: "❌ Student not found" });
         }
 
+        
+
         // Update CertificateIssued status to "Yes"
         await StudentModel.findByIdAndUpdate(student._id, { CertificateIssued: "Yes" });
 
         const { name, fatherName, course, image } = student;
+        
 
         // Load certificate template
         const templatePath = path.join(__dirname, "upload", "Certificate.pdf");
@@ -36,6 +40,7 @@ export const getCertificate = async (req, res) => {
 
         // Get the first page of the PDF
         const page = pdfDoc.getPage(0);
+        
         const fontSize = 13;
 
         // Fill in student details in the PDF
@@ -50,9 +55,11 @@ export const getCertificate = async (req, res) => {
         page.drawText(grade, { x: 195, y: 100, size: fontSize, color: rgb(0, 0, 0) });
         page.drawText(IssueDate, { x: 164, y: 77, size: fontSize, color: rgb(0, 0, 0) });
 
+        
         // ✅ Embed Student Image (PNG, JPG, or JPEG)
         if (image) {
             const imagePath = path.join(__dirname, "..", image); // Convert relative path to absolute
+            
             
             if (fs.existsSync(imagePath)) {
                 const imageBytes = fs.readFileSync(imagePath);
@@ -80,11 +87,14 @@ export const getCertificate = async (req, res) => {
             }
         }
 
+        
+
         // ✅ Generate and Send Modified PDF
         const modifiedPdfBytes = await pdfDoc.save();
         res.setHeader("Content-Type", "application/pdf");
         res.setHeader("Content-Disposition", 'inline; filename="certificate.pdf"');
         res.send(Buffer.from(modifiedPdfBytes));
+
     } catch (error) {
         console.error("❌ Error generating certificate:", error);
         res.status(500).json({ success: false, message: "❌ Internal Server Error" });

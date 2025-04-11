@@ -4,7 +4,8 @@ import axios from "axios";
 import { backenUrl } from "../App";
 import { toast } from "react-toastify";
 
-const AddStudents = () => {
+const AddStudents = ({token,token2}) => {
+    
     const [registrationNo, setRegistrationNo] = useState("");
     const [name, setName] = useState("");
     const [motherName, setMotherName] = useState("");
@@ -37,6 +38,8 @@ const AddStudents = () => {
             formData.append("email", email);
             formData.append("course", course);
             formData.append("image", image);
+           token?formData.append("token",token):formData.append("token","");
+           token2?formData.append("token2",token2):formData.append("token","");
 
             const response = await axios.post(backenUrl + "/api/student/add", formData, {
                 headers: { "Content-Type": "multipart/form-data" },
