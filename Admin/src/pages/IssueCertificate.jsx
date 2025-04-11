@@ -28,6 +28,7 @@ const IssueCertificate = () => {
 
     try {
       const response = await axios.post(backenUrl + "/api/students/certificate", { formData }, { responseType: "blob" });
+      console.log("hello");
       console.log(response.data);
       if (!response.data) {
         toast.error(response.data.message);

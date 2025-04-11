@@ -53,7 +53,7 @@ const ListStudents = ({ token, token2 }) => {
   console.log(students);
 
   return (
-    <div className="p-2 max-w-4xl mx-auto">
+    <div className="p-2 max-w-6xl ml-2">
       <p className="mb-2 text-base font-bold text-center">All Students List</p>
 
       <div className="overflow-x-auto">

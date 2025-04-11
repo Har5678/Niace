@@ -44,7 +44,7 @@ export const getCertificate = async (req, res) => {
         const fontSize = 13;
 
         // Fill in student details in the PDF
-        page.drawText(registrationNo, { x: 398, y: 329, size: 12, color: rgb(0, 0, 0) });
+        page.drawText(registrationNo, { x: 630, y: 530, size: 12, color: rgb(0, 0, 0) });
         page.drawText(certificateNo, { x: 124, y: 329, size: 12, color: rgb(0, 0, 0) });
         page.drawText(name, { x: 225, y: 220, size: fontSize, color: rgb(0, 0, 0) });
         page.drawText(fatherName, { x: 225, y: 196, size: fontSize, color: rgb(0, 0, 0) });
