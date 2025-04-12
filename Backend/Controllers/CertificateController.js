@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from "path";
-import { PDFDocument, rgb } from 'pdf-lib';
+import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
 import { fileURLToPath } from 'url';
 import StudentModel from '../Model/StudentModel.js';
 
@@ -34,6 +34,7 @@ export const getCertificate = async (req, res) => {
             return res.status(500).json({ success: false, message: "❌ Certificate template not found!" });
         }
         
+        
         console.log("Template Path:", templatePath);
         const pdfBytes = fs.readFileSync(templatePath);
         const pdfDoc = await PDFDocument.load(pdfBytes);
@@ -42,18 +43,18 @@ export const getCertificate = async (req, res) => {
         const page = pdfDoc.getPage(0);
         
         const fontSize = 13;
+        const font= await pdfDoc.embedFont(StandardFonts.HelveticaBold);
 
         // Fill in student details in the PDF
-        page.drawText(registrationNo, { x: 630, y: 530, size: 12, color: rgb(0, 0, 0) });
-        page.drawText(certificateNo, { x: 124, y: 329, size: 12, color: rgb(0, 0, 0) });
-        page.drawText(name, { x: 225, y: 220, size: fontSize, color: rgb(0, 0, 0) });
-        page.drawText(fatherName, { x: 225, y: 196, size: fontSize, color: rgb(0, 0, 0) });
-        page.drawText(course, { x: 200, y: 156, size: fontSize, color: rgb(0, 0, 0) });
-        page.drawText(conductedBy, { x: 240, y: 140, size: fontSize, color: rgb(0, 0, 0) });
-        page.drawText(fromDate, { x: 118, y: 120, size: fontSize, color: rgb(0, 0, 0) });
-        page.drawText(toDate, { x: 238, y: 120, size: fontSize, color: rgb(0, 0, 0) });
-        page.drawText(grade, { x: 195, y: 100, size: fontSize, color: rgb(0, 0, 0) });
-        page.drawText(IssueDate, { x: 164, y: 77, size: fontSize, color: rgb(0, 0, 0) });
+        page.drawText(registrationNo, { x: 630, y: 539.9, size: fontSize,font, color: rgb(0, 0, 0) });
+        page.drawText(certificateNo, { x: 145, y: 539.9, size: fontSize, font,color: rgb(0, 0, 0) });
+        page.drawText(name, { x: 330, y: 366.5, size: fontSize,font, color: rgb(0, 0, 0) });
+        page.drawText(fatherName, { x: 360, y: 322.5,font, size: fontSize, color: rgb(0, 0, 0) });
+        page.drawText(course, { x: 300, y: 240.5, font ,size: fontSize, color: rgb(0, 0, 0) });
+        page.drawText(conductedBy, { x: 320, y: 196, font ,size: fontSize, color: rgb(0, 0, 0) });
+        page.drawText(`: ${fromDate}`, { x: 319, y: 161.5, font ,size: fontSize, color: rgb(0, 0, 0) });
+        page.drawText(`: ${toDate}`, { x: 409, y: 161.5, font ,size: fontSize, color: rgb(0, 0, 0) });
+        page.drawText(IssueDate, { x: 145, y: 69, font,size: fontSize, color: rgb(0, 0, 0) });
 
         
         // ✅ Embed Student Image (PNG, JPG, or JPEG)

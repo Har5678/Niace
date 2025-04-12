@@ -42,15 +42,15 @@ const IssueCertificate = () => {
       window.open(url, "_blank");
       toast.success("Certificate issued successfully");
 
-      setFormData({
-        certificateNo: "",
-        registrationNo: "",
-        conductedBy: "",
-        IssueDate: "",
-        fromDate: "",
-        toDate: "",
-        grade: "",
-      });
+      // setFormData({
+      //   certificateNo: "",
+      //   registrationNo: "",
+      //   conductedBy: "",
+      //   IssueDate: "",
+      //   fromDate: "",
+      //   toDate: "",
+      //   grade: "",
+      // });
     } catch (error) {
       toast.error(error.response?.data?.message || "Something went wrong");
     }
